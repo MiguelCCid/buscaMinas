@@ -36,7 +36,6 @@ const Tablero = () => {
   const tamano = 8; 
   const totalBombas = 10; 
   
-  // Crear el estado del tablero
   const [tablero, setTablero] = useState(() =>
     generarTablero(tamano, tamano, totalBombas)
   );
