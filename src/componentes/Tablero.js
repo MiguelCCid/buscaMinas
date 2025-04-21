@@ -1,23 +1,18 @@
 import React, { useState } from "react";
 import Casilla from "./Casilla";
 
-// Función para generar el tablero
 const generarTablero = (filas, columnas, bombas) => {
-  // Crear la matriz vacía
   const tablero = Array(filas).fill().map(() => Array(columnas).fill(0));
 
-  // Colocar las bombas aleatoriamente
   let bombasTablero = 0;
   while (bombasTablero < bombas) {
     const fila = Math.floor(Math.random() * filas);
     const columna = Math.floor(Math.random() * columnas);
 
-    // Asegurarse de que no haya bomba ya en esa posición
     if (tablero[fila][columna] !== 'bomba') {
       tablero[fila][columna] = 'bomba';
       bombasTablero++;
 
-      // Actualizar las casillas alrededor de la bomba
       for (let i = -1; i <= 1; i++) {
         for (let j = -1; j <= 1; j++) {
           const nuevaFila = fila + i;
@@ -38,8 +33,8 @@ const generarTablero = (filas, columnas, bombas) => {
 };
 
 const Tablero = () => {
-  const tamano = 8; // Tamaño del tablero
-  const totalBombas = 10; // Número de bombas que queremos en el tablero
+  const tamano = 8; 
+  const totalBombas = 10; 
   
   // Crear el estado del tablero
   const [tablero, setTablero] = useState(() =>
@@ -48,7 +43,6 @@ const Tablero = () => {
 
   const tabla = [];
 
-  // Crear las filas y columnas para renderizar las casillas
   for (let fila = 0; fila < tamano; fila++) {
     const casillaFilas = [];
     for (let columna = 0; columna < tamano; columna++) {
@@ -57,7 +51,7 @@ const Tablero = () => {
           key={`${fila}-${columna}`}
           fila={fila}
           columna={columna}
-          valor={tablero[fila][columna]} // Pasamos el valor real de la casilla
+          valor={tablero[fila][columna]} 
         />
       );
     }
