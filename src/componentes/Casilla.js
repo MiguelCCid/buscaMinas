@@ -1,10 +1,12 @@
 import React from 'react';
 
-const Casilla = ({ row, col }) => {
-
+const Casilla = ({ fila, columna }) => {
+    const handleClick = () => { //creamos
+      };
 
   return (
     <button
+      onClick={handleClick}
       style={{
         width: '40px',
         height: '40px',
