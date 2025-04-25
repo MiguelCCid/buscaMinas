@@ -1,33 +1,32 @@
-import React, { useState } from 'react';
+import React from 'react';
 
-const Casilla = ({ fila, columna, valor }) => {
-    const [descubierta, setDescubierta] = useState(false);
-    const [marcada, setMarcada] = useState(false);
-
-    const handleClickIzq = () => { 
-        if(!marcada){
-        setDescubierta(true);
-        }
-      };
-    const handleClickDer = (e) =>{
-        e.preventDefault();
-        if (!descubierta){
-            setMarcada(!marcada);
-        }
-    };
-
-    let contenido ="";
-    if (descubierta){
-        if(valor === "bomba"){
-            contenido="bomba";
-        } else if (valor ===0){
-            contenido="0";
-        } else {
-            contenido = valor
-        }
-    } else if (marcada) {
-        contenido="bandera";
+const Casilla = ({ fila, columna, valor, descubierta, marcada, onDescubrir, onMarcar }) => {
+  const handleClickIzq = () => {
+    if (!marcada) {
+      onDescubrir(fila, columna);
     }
+  };
+
+  const handleClickDer = (e) => {
+    e.preventDefault();
+    if (!descubierta) {
+      onMarcar(fila, columna);
+    }
+  };
+
+  let contenido = "";
+  if (descubierta) {
+    if (valor === "bomba") {
+      contenido = "bomba";
+    } else if (valor === 0) {
+      contenido = "0";
+    } else {
+      contenido = valor;
+    }
+  } else if (marcada) {
+    contenido = "bandera";
+  }
+
   return (
     <button
       onClick={handleClickIzq}
@@ -37,10 +36,12 @@ const Casilla = ({ fila, columna, valor }) => {
         height: '40px',
         margin: '2px',
         fontSize: '16px',
-        cursor: 'pointer'
+        cursor: 'pointer',
+        backgroundColor: descubierta ? '#ddd' : '#aaa',
+        border: '1px solid #555'
       }}
     >
-        {contenido}
+      {contenido}
     </button>
   );
 };
