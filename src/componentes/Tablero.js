@@ -52,28 +52,28 @@ const Tablero = () => {
 
   const descubrirCasilla = (fila, columna) => {
     if (juegoTerminado) return;
-
+  
     const nuevoTablero = tablero.map((fila) =>
       fila.map((casilla) => ({ ...casilla }))
     );
-
+  
     const casilla = nuevoTablero[fila][columna];
     if (casilla.descubierta || casilla.marcada) return;
-
+  
     if (casilla.valor === "bomba") {
       casilla.descubierta = true;
       setTablero(nuevoTablero);
       setJuegoTerminado(true);
-      setMensaje("¡Perdiste!");
+      setMensaje("💣 ¡Perdiste!");
       return;
     }
-
+  
     const descubrirRecursivo = (f, c) => {
       const casilla = nuevoTablero[f][c];
       if (casilla.descubierta || casilla.marcada) return;
-
+  
       casilla.descubierta = true;
-
+  
       if (casilla.valor === 0) {
         for (let i = -1; i <= 1; i++) {
           for (let j = -1; j <= 1; j++) {
@@ -91,10 +91,28 @@ const Tablero = () => {
         }
       }
     };
-
+  
     descubrirRecursivo(fila, columna);
+  
+    let haGanado = true;
+    for (let i = 0; i < tamano; i++) {
+      for (let j = 0; j < tamano; j++) {
+        const c = nuevoTablero[i][j];
+        if (c.valor !== "bomba" && !c.descubierta) {
+          haGanado = false;
+          break;
+        }
+      }
+    }
+  
+    if (haGanado) {
+      setJuegoTerminado(true);
+      setMensaje("🎉 ¡Ganaste!");
+    }
+  
     setTablero(nuevoTablero);
   };
+  
 
   const marcarCasilla = (fila, columna) => {
     if (juegoTerminado) return;
