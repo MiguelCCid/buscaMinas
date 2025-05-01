@@ -42,16 +42,31 @@ const generarTablero = (filas, columnas, bombas) => {
 
 const Tablero = () => {
   const tamano = 8;
-  const totalBombas = 10;
+  const totalBombas = 5;
 
   const [tablero, setTablero] = useState(() =>
     generarTablero(tamano, tamano, totalBombas)
   );
+  const [juegoTerminado, setJuegoTerminado] = useState(false);
+  const [mensaje, setMensaje] = useState("");
 
   const descubrirCasilla = (fila, columna) => {
+    if (juegoTerminado) return;
+
     const nuevoTablero = tablero.map((fila) =>
       fila.map((casilla) => ({ ...casilla }))
     );
+
+    const casilla = nuevoTablero[fila][columna];
+    if (casilla.descubierta || casilla.marcada) return;
+
+    if (casilla.valor === "bomba") {
+      casilla.descubierta = true;
+      setTablero(nuevoTablero);
+      setJuegoTerminado(true);
+      setMensaje("¡Perdiste!");
+      return;
+    }
 
     const descubrirRecursivo = (f, c) => {
       const casilla = nuevoTablero[f][c];
@@ -82,6 +97,8 @@ const Tablero = () => {
   };
 
   const marcarCasilla = (fila, columna) => {
+    if (juegoTerminado) return;
+
     const nuevoTablero = tablero.map((fila) =>
       fila.map((casilla) => ({ ...casilla }))
     );
@@ -120,7 +137,12 @@ const Tablero = () => {
     );
   }
 
-  return <div>{tabla}</div>;
+  return (
+    <div>
+      {tabla}
+      {mensaje && <h2 style={{ marginTop: '20px' }}>{mensaje}</h2>}
+    </div>
+  );
 };
 
 export default Tablero;

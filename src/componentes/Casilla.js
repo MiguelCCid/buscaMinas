@@ -1,17 +1,21 @@
 import React from 'react';
 
-const Casilla = ({ fila, columna, valor, descubierta, marcada, onDescubrir, onMarcar }) => {
+const Casilla = ({
+  fila,
+  columna,
+  valor,
+  descubierta,
+  marcada,
+  onDescubrir,
+  onMarcar
+}) => {
   const handleClickIzq = () => {
-    if (!marcada) {
-      onDescubrir(fila, columna);
-    }
+    onDescubrir(fila, columna);
   };
 
   const handleClickDer = (e) => {
     e.preventDefault();
-    if (!descubierta) {
-      onMarcar(fila, columna);
-    }
+    onMarcar(fila, columna);
   };
 
   let contenido = "";
@@ -37,8 +41,7 @@ const Casilla = ({ fila, columna, valor, descubierta, marcada, onDescubrir, onMa
         margin: '2px',
         fontSize: '16px',
         cursor: 'pointer',
-        backgroundColor: descubierta ? '#ddd' : '#aaa',
-        border: '1px solid #555'
+        backgroundColor: descubierta ? '#ddd' : '#999',
       }}
     >
       {contenido}
