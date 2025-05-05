@@ -64,7 +64,7 @@ const Tablero = () => {
       casilla.descubierta = true;
       setTablero(nuevoTablero);
       setJuegoTerminado(true);
-      setMensaje("💣 ¡Perdiste!");
+      setMensaje("¡Perdiste!");
       return;
     }
   
@@ -107,7 +107,7 @@ const Tablero = () => {
   
     if (haGanado) {
       setJuegoTerminado(true);
-      setMensaje("🎉 ¡Ganaste!");
+      setMensaje("¡Ganaste!");
     }
   
     setTablero(nuevoTablero);
