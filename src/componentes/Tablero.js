@@ -43,7 +43,8 @@ const generarTablero = (filas, columnas, bombas) => {
 const Tablero = () => {
   const tamano = 8;
   const totalBombas = 5;
-
+  const [bombasRestantes, setBombasRestantes] = useState(totalBombas); 
+  
   const [tablero, setTablero] = useState(() =>
     generarTablero(tamano, tamano, totalBombas)
   );
@@ -64,7 +65,7 @@ const Tablero = () => {
       casilla.descubierta = true;
       setTablero(nuevoTablero);
       setJuegoTerminado(true);
-      setMensaje("¡Perdiste!");
+      setMensaje("¡Perdiste 💣!");
       return;
     }
   
@@ -107,7 +108,7 @@ const Tablero = () => {
   
     if (haGanado) {
       setJuegoTerminado(true);
-      setMensaje("¡Ganaste!");
+      setMensaje("¡Ganaste! 🎉");
     }
   
     setTablero(nuevoTablero);
@@ -122,9 +123,14 @@ const Tablero = () => {
     );
 
     const casilla = nuevoTablero[fila][columna];
-    if (!casilla.descubierta) {
-      casilla.marcada = !casilla.marcada;
-    }
+    if (!casilla.descubierta && casilla.marcada === false) {
+      casilla.marcada = true;
+      setBombasRestantes(bombas => bombas - 1);
+    } else if (!casilla.descubierta && casilla.marcada === true) {
+      casilla.marcada = false;
+      setBombasRestantes(bombas => bombas + 1);
+
+    } 
 
     setTablero(nuevoTablero);
   };
@@ -157,6 +163,7 @@ const Tablero = () => {
 
   return (
     <div>
+      <div>Bombas restantes: {bombasRestantes} </div>
       {tabla}
       {mensaje && <h2 style={{ marginTop: '20px' }}>{mensaje}</h2>}
     </div>

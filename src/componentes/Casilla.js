@@ -21,14 +21,14 @@ const Casilla = ({
   let contenido = "";
   if (descubierta) {
     if (valor === "bomba") {
-      contenido = "bomba";
+      contenido = "💣";
     } else if (valor === 0) {
-      contenido = "0";
+      contenido = " ";
     } else {
       contenido = valor;
     }
   } else if (marcada) {
-    contenido = "bandera";
+    contenido = "🚩";
   }
 
   return (
