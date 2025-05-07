@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Casilla from "./Casilla";
-
+import { useEffect } from "react";
 const generarTablero = (filas, columnas, bombas) => {
   const tablero = Array(filas).fill().map(() =>
     Array(columnas).fill().map(() => ({
@@ -44,12 +44,25 @@ const Tablero = () => {
   const tamano = 8;
   const totalBombas = 5;
   const [bombasRestantes, setBombasRestantes] = useState(totalBombas); 
-  const [tiempo, setTiempo] =useState(5)
+  const [tiempo, setTiempo] =useState(0)
+  
   const [tablero, setTablero] = useState(() =>
     generarTablero(tamano, tamano, totalBombas)
   );
   const [juegoTerminado, setJuegoTerminado] = useState(false);
   const [mensaje, setMensaje] = useState("");
+  
+  useEffect(() => {
+    if (juegoTerminado) return;
+  
+    const intervalo = setInterval(() => {
+      setTiempo(t => t + 1);
+    }, 1000);
+  
+    return () => clearInterval(intervalo);
+  }, [juegoTerminado]);
+
+
 
   const descubrirCasilla = (fila, columna) => {
     if (juegoTerminado) return;
@@ -169,10 +182,12 @@ const Tablero = () => {
     setBombasRestantes(totalBombas);
     setJuegoTerminado(false);
     setMensaje("");
+    setTiempo(0);
   };
 
   return (
     <div>
+      <div>Tiempo jugado: {tiempo} </div>
       <div>Bombas restantes: {bombasRestantes} </div>
       {tabla}
       {mensaje && <h2 style={{ marginTop: '20px' }}>{mensaje}</h2>}
