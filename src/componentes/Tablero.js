@@ -44,7 +44,7 @@ const Tablero = () => {
   const tamano = 8;
   const totalBombas = 5;
   const [bombasRestantes, setBombasRestantes] = useState(totalBombas); 
-  
+  const [tiempo, setTiempo] =useState(5)
   const [tablero, setTablero] = useState(() =>
     generarTablero(tamano, tamano, totalBombas)
   );
@@ -65,7 +65,8 @@ const Tablero = () => {
       casilla.descubierta = true;
       setTablero(nuevoTablero);
       setJuegoTerminado(true);
-      setMensaje("¡Perdiste 💣!");
+      setMensaje("¡Perdiste 💣! se reiniciará en: 5 segundos");
+      setTimeout(reiniciarJuego, 5000);
       return;
     }
   
@@ -108,13 +109,15 @@ const Tablero = () => {
   
     if (haGanado) {
       setJuegoTerminado(true);
-      setMensaje("¡Ganaste! 🎉");
+        setMensaje(`¡Ganaste! 🎉 se reiniciará en: 5 segundos`);
+        setTimeout(reiniciarJuego, 5000);
     }
+
   
     setTablero(nuevoTablero);
   };
   
-
+  
   const marcarCasilla = (fila, columna) => {
     if (juegoTerminado) return;
 
@@ -161,6 +164,13 @@ const Tablero = () => {
     );
   }
 
+  const reiniciarJuego = () => {
+    setTablero(generarTablero(tamano, tamano, totalBombas));
+    setBombasRestantes(totalBombas);
+    setJuegoTerminado(false);
+    setMensaje("");
+  };
+
   return (
     <div>
       <div>Bombas restantes: {bombasRestantes} </div>
@@ -169,5 +179,7 @@ const Tablero = () => {
     </div>
   );
 };
+
+
 
 export default Tablero;
